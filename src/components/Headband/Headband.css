@@ -1,0 +1,16 @@
+.leftHeadband{
+    position: absolute;
+    background-image: url("./img/left.png");
+    background-repeat: no-repeat;
+    background: contain;
+    background-size: cover;
+}
+
+
+.rightHeadband{
+    position: absolute;
+    background-image: url("./img/right.png");
+    background-repeat: no-repeat;
+    background: contain;
+    background-size: cover;
+} 
