@@ -13,12 +13,12 @@ import HelloPage from '../Pages/HelloPage';
 import PageWorker from '../Pages/PageWorker';
 import axios from 'axios';
 
-import conf from "../serverConfig.json"
+import conf from "../../serverConfig.json"
 
 export default function MySlides() {
-  const [checked, setChecked] = React.useState<boolean>(true);
+  const [checked, setChecked] = React.useState<boolean|undefined>(true);
   const [direction, setDirection] = React.useState<"right" | "left" | "up" | "down" | undefined>("right");
-  const [flag, setFlag] = React.useState<boolean>(false);
+  const [flag, setFlag] = React.useState<boolean|undefined>(false);
 
 
   const [b_nav_disabled_l, setBNavDisabled_l] = React.useState<boolean>(false)
@@ -27,9 +27,9 @@ export default function MySlides() {
   const [b_nav_disabled_d, setBNavDisabled_d] = React.useState<boolean>(false)
 
 
-  const [m_map, setMmap] = React.useState([[],])
+  const [m_map, setMmap] = React.useState<number[][]>([[],])
   // let m_map: number[][] = [[]]
-  const [pagePosition, setPagePosition] = React.useState({x:5, y:1});
+  const [pagePosition, setPagePosition] = React.useState({ x: 5, y: 1 });
 
 
   useEffect(() => {
@@ -67,24 +67,54 @@ export default function MySlides() {
     autoStart: false,
     expiryTimestamp: v_time,
     onExpire: () => {
-      
+
       setChecked(true);
       if (direction == "down") {
         setDirection("up");
-        setPagePosition({x:5, y:pagePosition.y + 1});
+        setPagePosition({ x: 5, y: pagePosition.y + 1 });
       }
       else if (direction == "up") {
         setDirection("down");
-        setPagePosition({x:5, y:pagePosition.y - 1});
+        setPagePosition({ x: 5, y: pagePosition.y - 1 });
       }
       else if (direction == "left") {
-        setDirection("right");
-        setPagePosition({x:pagePosition.x-1, y:pagePosition.y});
+        if (m_map[pagePosition.y][pagePosition.x - 1] == 0) {
+          let last_index = pagePosition.x;
+
+          m_map[pagePosition.y].forEach((e: number, index: number) => {
+            if (e != 0) last_index = index;
+          });
+
+          
+          setDirection("right");
+          setPagePosition({ x: last_index, y: pagePosition.y })
+        }
+        else {
+          setDirection("right");
+          setPagePosition({ x: pagePosition.x - 1, y: pagePosition.y });
+        }
       }
       else if (direction == "right") {
-        setDirection("left"); 
-        setPagePosition({x:pagePosition.x+1, y:pagePosition.y});
+        if (m_map.at(pagePosition.y)?.at(pagePosition.x + 1) == 0) {
+          let first_index = pagePosition.x;
+          let s_flag = true;
+          m_map[pagePosition.y].forEach((e: number, index: number) => {
+            if (e != 0 && s_flag) {
+              first_index = index;
+              s_flag = false;
+            }
+
+          });
+
+          setDirection("left");
+          setPagePosition({ x: first_index, y: pagePosition.y })
+        }
+        else {
+          setDirection("left");
+          setPagePosition({ x: pagePosition.x + 1, y: pagePosition.y });
+        }
       }
+
     }
   }
   const { restart, resume, start, isRunning } = useTimer(timer_settings);
@@ -95,12 +125,16 @@ export default function MySlides() {
     restart(v_time, true)
   }
 
-  useEffect(()=>{
-    setBNavDisabled_l(m_map.at(pagePosition.y)?.at(pagePosition.x-1) == 0);
-    setBNavDisabled_r(m_map.at(pagePosition.y)?.at(pagePosition.x+1) == 0);
+  useEffect(() => {
 
-    setBNavDisabled_u(m_map.at(pagePosition.y-1)?.at(5) == 0);
-    setBNavDisabled_d(m_map.at(pagePosition.y+1)?.at(5) == 0);
+    console.log(pagePosition)
+
+
+    // setBNavDisabled_l(m_map.at(pagePosition.y)?.at(pagePosition.x-1) == 0);
+    // setBNavDisabled_r(m_map.at(pagePosition.y)?.at(pagePosition.x+1) == 0);
+
+    setBNavDisabled_u(m_map.at(pagePosition.y - 1)?.at(5) == 0);
+    setBNavDisabled_d(m_map.at(pagePosition.y + 1)?.at(5) == 0);
   }, [pagePosition]);
 
   useEffect(() => {
@@ -131,7 +165,7 @@ export default function MySlides() {
   return (
     <Slide timeout={{ appear: 1000, enter: 1800, exit: 800 }} direction={direction} in={checked} appear={false} mountOnEnter unmountOnExit addEndListener={() => {
     }}>
-      <Box sx={{ translate: "15% 10%", width: "80vw", height: "80vh", position: "absolute" }}>
+      <Box sx={{ translate: "15% 10%", width: "80vw", height: "85vh", position: "absolute" }}>
         <Box sx={{ display: "inline-flex", justifyContent: "center", alignItems: "center" }}>
           <IconButton sx={{ height: "60px", width: "60px" }} size="large" disabled={b_nav_disabled_l} onClick={() => { changeDirection("left") }}><KeyboardArrowLeftIcon sx={{ height: "50px", width: "50px" }} /></IconButton>
 
@@ -139,8 +173,8 @@ export default function MySlides() {
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
               <IconButton sx={{ height: "60px", width: "60px" }} size="large" disabled={b_nav_disabled_u} onClick={() => { changeDirection("up") }}><KeyboardArrowUpIcon sx={{ height: "50px", width: "50px" }} /></IconButton>
             </Box>
-            <Box sx={{ width: "70vw", height: "75vh" }}>
-              <PageWorker />
+            <Box sx={{ width: "70vw", height: "70vh" }}>
+              <PageWorker pagePosition={pagePosition} pageIndexes={m_map}/>
             </Box>
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
               <IconButton sx={{ height: "60px", width: "60px" }} size="large" disabled={b_nav_disabled_d} onClick={() => { changeDirection("down") }}><KeyboardArrowDownIcon sx={{ height: "50px", width: "50px" }} /></IconButton>

@@ -50,20 +50,18 @@ export default function Headband({ onEndLoading }: { onEndLoading: (status: bool
   // Таймер -------------------------------
 
   return (
-    <Box top={0} position="relative">
-
-
-      <Slide timeout={{ appear: 1000, enter: 800, exit: 500 }} direction={"left"} in={checked} appear={false} mountOnEnter unmountOnExit >
-        <Box sx={{ zIndex: 100}}>
-          <Box sx={{width: "63vw", height:"100vh", right: "0vh"}} className='rightHeadband' />
-        </Box>
-      </Slide>
+    <div style={{
+      // position: "absolute",
+      // display:"inline-block",
+      }}>
 
       <Slide timeout={{ appear: 1000, enter: 800, exit: 500 }} direction={"right"} in={checked} appear={false} mountOnEnter unmountOnExit>
-        <Box sx={{ zIndex: 100}}>
-          <Box sx={{width: "63vw", height:"100vh", left: "0vh"}} className='leftHeadband' />
-        </Box>
+        <Box sx={{width: "63vw", height:"105vh", left: "0vh"}} className='leftHeadband' />
       </Slide>
-    </Box>
+
+      <Slide timeout={{ appear: 1000, enter: 800, exit: 500 }} direction={"left"} in={checked} appear={false} mountOnEnter unmountOnExit >  
+        <Box sx={{width: "63vw", height:"105vh", right: "0vh"}} className='rightHeadband' />
+      </Slide>
+    </div>
   );
 }

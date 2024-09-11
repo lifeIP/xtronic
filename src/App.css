@@ -1,59 +1,7 @@
-.creature {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: #3ac;
-  position: relative;
-}
 
-.creature::before,
-.creature::after {
-  content: '';
-  position: absolute;
-  width: 30px;
-  height: 40px;
-  border-radius: 50%;
-  background: #000;
-  top: 40px;
-  animation: eye 3s ease-in-out infinite;
-}
-
-.creature::before {
-  left: 55px;
-}
-
-.creature::after {
-  right: 55px;
-}
-
-@keyframes eye {
-  80% {
-    transform: none;
-  }
-  85% {
-    transform: scaleY(1.8);
-  }
-  95% {
-    transform: scaleY(0.1);
-  }
-}
-
-
-.cube_xtronic{
-  width: 200px;
-  height: 200px;
-  background: red;
-}
-
-.creature::before{
-  left: 55px;
-}
-
-.creature::after{
-  right: 55px;
-}
-
-.creature::before,
-.creature::after{
-  
+* {    
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
 }

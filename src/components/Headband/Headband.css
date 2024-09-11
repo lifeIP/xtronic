@@ -1,5 +1,6 @@
 .leftHeadband{
-    position: absolute;
+    margin-top: -1px;
+    position:absolute;
     background-image: url("./img/left.png");
     background-repeat: no-repeat;
     background: contain;
@@ -8,7 +9,8 @@
 
 
 .rightHeadband{
-    position: absolute;
+    margin-top: -1px;
+    position:absolute;
     background-image: url("./img/right.png");
     background-repeat: no-repeat;
     background: contain;

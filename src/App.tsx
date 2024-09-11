@@ -9,8 +9,9 @@ import { useTimer, TimerSettings } from 'react-timer-hook';
 
 import Headband from './components/Headband/Headband';
 import MySlides from './components/MySlides/MySlides';
-
-
+import background from './images/background.png';
+import logoXtronic from './images/logo.svg'
+import { HandySvg } from 'handy-svg';
 
 function Loader() {
   const [endLoading, setLoadingStatus] = React.useState<boolean>(false)
@@ -46,7 +47,12 @@ function Loader() {
         (
           <Box sx={{ overflowX: "hidden", overflowY: "hidden", zIndex: 50 }}>
             <Box sx={{ position: "absolute", left: "50%", transform: "translateX(-50%)" }}>
-              <Typography paddingTop="0.8vh" variant='h3'>XTRONIK</Typography>
+              <HandySvg
+                  src={logoXtronic}
+                  className="icon"
+                  width="20vw"
+                  height="10vh"
+              />
             </Box>
             <MySlides />
           </Box>
@@ -64,10 +70,20 @@ function Loader() {
 
 
 function App() {
+  const myStyle = {
+    backgroundImage: `url(${background})`,
+    height: "calc(100vh + 5px)",
+    width: "calc(100vw + 5px)",
+    marginTop: "-5px",
+    marginLeft: "-5px",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+  };
   return (
-    <Box >
+
+    <div style={myStyle}>
       <Loader />
-    </Box>
+    </div>
   );
 }
 
