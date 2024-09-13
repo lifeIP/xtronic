@@ -1,0 +1,20 @@
+.perehodnic_1{
+    background-image: url("./img/perehodnic.png");
+    background-repeat: no-repeat;
+    background: contain;
+    background-size: cover;
+}
+
+.perehodnic_2{
+    background-image: url("./img/perehodnic_2.png");
+    background-repeat: no-repeat;
+    background: contain;
+    background-size: cover;
+}
+
+.perehodnic_3{
+    background-image: url("./img/perehodnic_3.png");
+    background-repeat: no-repeat;
+    background: contain;
+    background-size: cover;
+}
